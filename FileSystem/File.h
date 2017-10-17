@@ -5,6 +5,8 @@
 #include <cstdlib>
 #include <cstring>
 #include <vector>
+#include <direct.h>
+#include <io.h>
 #define ThrowError(str) {cout<<str<<endl;abort();}
 using namespace std;
 
