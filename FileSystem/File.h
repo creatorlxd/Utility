@@ -2,21 +2,23 @@
 #include <cstdio>
 #include <string>
 #include <iostream>
+#include <cstdlib>
+#include <cstring>
 #define ThrowError(str) {cout<<str<<endl;abort();}
 using namespace std;
 
 typedef fpos_t FilePosition;
 
-enum FileMode : unsigned char
+namespace FileMode
 {
-	None = 0,
-	Read = 1,
-	Write = 2,
-	Append = 4,
-	Binary = 8
-};
+	const unsigned char None = 0;
+	const unsigned char Read = 1;
+	const unsigned char Write = 2;
+	const unsigned char Append = 4;
+	const unsigned char Binary = 8;
+}
 
-enum PrintMode
+enum class PrintMode : unsigned char
 {
 	EndLine=1
 };
@@ -36,7 +38,7 @@ public:
 
 	void Read(void* adr, size_t size);
 	void Wirte(const void* adr, size_t size);
-	
+
 	File& operator >> (char* cstr);
 	File& operator >> (string& str);
 	File& operator >> (int& i);
