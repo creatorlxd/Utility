@@ -38,9 +38,11 @@ void File::Open(const string & filename, unsigned char mode)
 		opt += "+";
 	}
 
-	if (fopen_s(&m_pFILE, filename.c_str(), opt.c_str()) != 0)
-		ThrowError(string("can not open file:" + filename));
-	
+	//if (fopen_s(&m_pFILE, filename.c_str(), opt.c_str()) != 0)
+	//	ThrowError(string("can not open file:" + filename));
+
+	m_pFILE=fopen(filename.c_str(),opt.c_str());
+
 	if ((mode&FileMode::Append) != 0)
 	{
 		fseek(m_pFILE, 0, SEEK_END);
@@ -91,7 +93,7 @@ void File::SetFilePosition(FilePosition pos)
 
 void File::Read(void * adr, size_t size)
 {
-	fread_s(adr, size, size, 1, m_pFILE);
+	fread(adr, size, 1, m_pFILE);
 }
 
 void File::Wirte(const void * adr, size_t size)
@@ -125,91 +127,91 @@ File& File::operator>>(string & str)
 File & File::operator>>(int & i)
 {
 	if((m_FileMode&FileMode::Read)!=0)
-		fscanf_s(m_pFILE, "%d", &i);
+		fscanf(m_pFILE, "%d", &i);
 	return *this;
 }
 
 File & File::operator>>(unsigned int & ui)
 {
 	if ((m_FileMode&FileMode::Read) != 0)
-		fscanf_s(m_pFILE, "%ud", &ui);
+		fscanf(m_pFILE, "%ud", &ui);
 	return *this;
 }
 
 File & File::operator>>(short & s)
 {
 	if ((m_FileMode&FileMode::Read) != 0)
-		fscanf_s(m_pFILE, "%hd", &s);
+		fscanf(m_pFILE, "%hd", &s);
 	return *this;
 }
 
 File & File::operator>>(unsigned short & us)
 {
 	if ((m_FileMode&FileMode::Read) != 0)
-		fscanf_s(m_pFILE, "%hud", &us);
+		fscanf(m_pFILE, "%hud", &us);
 	return *this;
 }
 
 File & File::operator>>(long & l)
 {
 	if ((m_FileMode&FileMode::Read) != 0)
-		fscanf_s(m_pFILE, "%ld", &l);
+		fscanf(m_pFILE, "%ld", &l);
 	return *this;
 }
 
 File & File::operator>>(unsigned long & ul)
 {
 	if ((m_FileMode&FileMode::Read) != 0)
-		fscanf_s(m_pFILE, "%uld", &ul);
+		fscanf(m_pFILE, "%uld", &ul);
 	return *this;
 }
 
 File & File::operator>>(long long & ll)
 {
 	if ((m_FileMode&FileMode::Read) != 0)
-		fscanf_s(m_pFILE, "%I64d", &ll);
+		fscanf(m_pFILE, "%I64d", &ll);
 	return *this;
 }
 
 File & File::operator>>(unsigned long long & ull)
 {
 	if ((m_FileMode&FileMode::Read) != 0)
-		fscanf_s(m_pFILE, "%I64ud", &ull);
+		fscanf(m_pFILE, "%I64ud", &ull);
 	return *this;
 }
 
 File & File::operator>>(char & c)
 {
 	if ((m_FileMode&FileMode::Read) != 0)
-		fscanf_s(m_pFILE, " \r\n\t%c", &c,sizeof(char));
+		fscanf(m_pFILE, " \r\n\t%c", &c,sizeof(char));
 	return *this;
 }
 
 File & File::operator>>(unsigned char & uc)
 {
 	if ((m_FileMode&FileMode::Read) != 0)
-		fscanf_s(m_pFILE, "%hhu", &uc);
+		fscanf(m_pFILE, "%hhu", &uc);
 	return *this;
 }
 
 File & File::operator>>(float & f)
 {
 	if ((m_FileMode&FileMode::Read) != 0)
-		fscanf_s(m_pFILE, "%f", &f);
+		fscanf(m_pFILE, "%f", &f);
 	return *this;
 }
 
 File & File::operator>>(double & d)
 {
 	if ((m_FileMode&FileMode::Read) != 0)
-		fscanf_s(m_pFILE, "%lf", &d);
+		fscanf(m_pFILE, "%lf", &d);
 	return *this;
 }
 
 File & File::operator>>(long double & ld)
 {
 	if ((m_FileMode&FileMode::Read) != 0)
-		fscanf_s(m_pFILE, "%Lf", &ld);
+		fscanf(m_pFILE, "%Lf", &ld);
 	return *this;
 }
 
@@ -217,9 +219,9 @@ File & File::operator<<(const PrintMode & pm)
 {
 	switch (pm)
 	{
-	case EndLine:
+	case PrintMode::EndLine:
 	{
-		fscanf_s(m_pFILE, "\n");
+		fscanf(m_pFILE, "\n");
 		fflush(m_pFILE);
 	}
 	default:
@@ -231,104 +233,104 @@ File & File::operator<<(const PrintMode & pm)
 File & File::operator<<(const char * cstr)
 {
 	if ((m_FileMode&FileMode::Write) != 0)
-		fprintf_s(m_pFILE, "%s", cstr);
+		fprintf(m_pFILE, "%s", cstr);
 	return *this;
 }
 
 File & File::operator<<(const string & str)
 {
 	if ((m_FileMode&FileMode::Write) != 0)
-		fprintf_s(m_pFILE, "%s", str.c_str());
+		fprintf(m_pFILE, "%s", str.c_str());
 	return *this;
 }
 
 File & File::operator<<(const int & i)
 {
 	if ((m_FileMode&FileMode::Write) != 0)
-		fprintf_s(m_pFILE, "%d", i);
+		fprintf(m_pFILE, "%d", i);
 	return *this;
 }
 
 File & File::operator<<(const unsigned int & ui)
 {
 	if ((m_FileMode&FileMode::Write) != 0)
-		fprintf_s(m_pFILE, "%ud", ui);
+		fprintf(m_pFILE, "%ud", ui);
 	return *this;
 }
 
 File & File::operator<<(const short & s)
 {
 	if ((m_FileMode&FileMode::Write) != 0)
-		fprintf_s(m_pFILE, "%hd", s);
+		fprintf(m_pFILE, "%hd", s);
 	return *this;
 }
 
 File & File::operator<<(const unsigned short & us)
 {
 	if ((m_FileMode&FileMode::Write) != 0)
-		fprintf_s(m_pFILE, "%hud", us);
+		fprintf(m_pFILE, "%hud", us);
 	return *this;
 }
 
 File & File::operator<<(const long & l)
 {
 	if ((m_FileMode&FileMode::Write) != 0)
-		fprintf_s(m_pFILE, "%ld", l);
+		fprintf(m_pFILE, "%ld", l);
 	return *this;
 }
 
 File & File::operator<<(const unsigned long & ul)
 {
 	if ((m_FileMode&FileMode::Write) != 0)
-		fprintf_s(m_pFILE, "%lud", ul);
+		fprintf(m_pFILE, "%lud", ul);
 	return *this;
 }
 
 File & File::operator<<(const long long & ll)
 {
 	if ((m_FileMode&FileMode::Write) != 0)
-		fprintf_s(m_pFILE, "%I64d", ll);
+		fprintf(m_pFILE, "%I64d", ll);
 	return *this;
 }
 
 File & File::operator<<(const unsigned long long & ull)
 {
 	if ((m_FileMode&FileMode::Write) != 0)
-		fprintf_s(m_pFILE, "%I64ud", ull);
+		fprintf(m_pFILE, "%I64ud", ull);
 	return *this;
 }
 
 File & File::operator<<(const char & c)
 {
 	if ((m_FileMode&FileMode::Write) != 0)
-		fprintf_s(m_pFILE, "%c", c);
+		fprintf(m_pFILE, "%c", c);
 	return *this;
 }
 
 File & File::operator<<(const unsigned char & uc)
 {
 	if ((m_FileMode&FileMode::Write) != 0)
-		fprintf_s(m_pFILE, "%hhu", uc);
+		fprintf(m_pFILE, "%hhu", uc);
 	return *this;
 }
 
 File & File::operator<<(const float & f)
 {
 	if ((m_FileMode&FileMode::Write) != 0)
-		fprintf_s(m_pFILE, "%f", f);
+		fprintf(m_pFILE, "%f", f);
 	return *this;
 }
 
 File & File::operator<<(const double & d)
 {
 	if ((m_FileMode&FileMode::Write) != 0)
-		fprintf_s(m_pFILE, "%lf", d);
+		fprintf(m_pFILE, "%lf", d);
 	return *this;
 }
 
 File & File::operator<<(const long double & ld)
 {
 	if ((m_FileMode&FileMode::Write) != 0)
-		fprintf_s(m_pFILE, "%Lf", ld);
+		fprintf(m_pFILE, "%Lf", ld);
 	return *this;
 }
