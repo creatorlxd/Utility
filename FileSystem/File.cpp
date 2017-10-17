@@ -31,22 +31,15 @@ void CreateDirectory(const string& str)
 	string buffer;
 	for(int i=0;i<folder.size();i++)
 	{
-		if(folder[i]==".")
+		if(folder[i]=="."||folder[i]=="..")
 		{
-			continue;
+			buffer+=folder[i]+"/";
 		}
 		else
 		{
-			if(folder[i]=="..")
-			{
-				buffer+="../";
-			}
-			else
-			{
-				buffer+=folder[i]+"/";
-				if(_access(buffer.c_str(),0)==-1)
-					_mkdir(buffer.c_str());
-			}
+			buffer+=folder[i]+"/";
+			if(_access(buffer.c_str(),0)==-1)
+				_mkdir(buffer.c_str());
 		}
 	}
 }
