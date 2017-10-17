@@ -1,5 +1,56 @@
 #include "File.h"
 
+vector<string> GetDirectoryName(const string& filepath)
+{
+    vector<string> re;
+    string buffer;
+    int index=0;
+
+    char c=' ';
+    while(c==' ')
+        c=filepath[index++];
+    while(index<filepath.length())
+    {
+        if(c!='/')
+        {
+            buffer+=c;
+        }
+        else
+        {
+            re.push_back(buffer);
+            buffer.clear();
+        }
+        c=filepath[index++];
+    }
+    return re;
+}
+
+void CreateDirectory(const string& str)
+{
+	auto folder=GetDirectoryName(str);
+	string buffer;
+	for(int i=0;i<folder.size();i++)
+	{
+		if(folder[i]==".")
+		{
+			continue;
+		}
+		else
+		{
+			if(folder[i]=="..")
+			{
+				buffer+="../";
+			}
+			else
+			{
+				buffer+=folder[i]+"/";
+				if(_access(buffer.c_str(),0)==-1)
+					_mkdir(buffer.c_str());
+			}
+		}
+	}
+}
+
 File::File()
 {
 	m_pFILE = nullptr;
