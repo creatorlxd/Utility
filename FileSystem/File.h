@@ -4,10 +4,15 @@
 #include <iostream>
 #include <cstdlib>
 #include <cstring>
+#include <vector>
 #define ThrowError(str) {cout<<str<<endl;abort();}
 using namespace std;
 
 typedef fpos_t FilePosition;
+
+vector<string> GetDirectoryName(const string& filepath);
+
+void CreateDirectory(const string& str);
 
 namespace FileMode
 {
